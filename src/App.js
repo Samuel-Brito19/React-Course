@@ -1,42 +1,38 @@
-import logo from './logo.svg';
 import './App.css';
 import { Component } from 'react';
 
 
 class App extends Component {
 
-  constructor(props) {
-    super(props);
+  state = {
 
 
-    this.state = {
-      name: 'Samuel Brito'
-    }
+    posts: [
+
+    ]
   }
 
-  pClick = () => {
-    this.setState({ name: 'Vini Jr' })
+  componentDidMount() {
+
   }
+
+
 
   render() {
 
-    const { name } = this.state
+    const { posts } = this.state
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p onClick={this.pClick}>
-            {name}
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+
+        {posts.map(post => (
+
+          <div key={post.id}>
+
+            <h1> {post.title} </h1>
+            <p> {post.id} </p>
+          </div>
+        ))}
+
       </div>
     );
   }
