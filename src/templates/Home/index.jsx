@@ -12,7 +12,7 @@ export class Home extends Component {
     posts: [],
     allPosts: [],
     page: 0,
-    postsPerPage: 2
+    postsPerPage: 99
   }
 
   async componentDidMount() {
@@ -42,7 +42,8 @@ export class Home extends Component {
 
   render() {
 
-    const { posts } = this.state
+    const { posts, page, allPosts, postsPerPage } = this.state
+    const noMorePosts = page + postsPerPage >= allPosts.length
     return (
       <section className='container'>
 
@@ -57,16 +58,18 @@ export class Home extends Component {
               id={post.id}
               cover={post.cover}
             />
-
-
-
           ))}
-
         </div>
 
-        <Button
-          text="Carregue mais posts"
-          onClick={this.loadMorePosts} />
+        <div class="button-container">
+          <Button
+            text="Carregue mais posts"
+            onClick={this.loadMorePosts}
+            disable={noMorePosts}
+
+          />
+
+        </div>
 
       </section>
 
