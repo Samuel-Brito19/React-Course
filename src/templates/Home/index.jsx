@@ -2,6 +2,7 @@ import './style.css';
 import { Component } from 'react';
 import { PostCard } from '../../components/postCard';
 import { loadPosts } from '../../components/postCard/utils/load-posts'
+import { Button } from '../../components/Button';
 
 
 export class Home extends Component {
@@ -25,7 +26,18 @@ export class Home extends Component {
   }
 
   loadMorePosts = () => {
-    console.log('Call this')
+    const {
+      page,
+      postsPerPage,
+      allPosts,
+      posts
+    } = this.state
+
+    const nextPage = page + postsPerPage
+    const nextPosts = allPosts.slice(nextPage, nextPage + postsPerPage)
+    posts.push(...nextPosts)
+
+    this.setState({ posts, page: nextPage })
   }
 
   render() {
@@ -46,10 +58,15 @@ export class Home extends Component {
               cover={post.cover}
             />
 
+
+
           ))}
 
         </div>
-        <button onClick={this.loadMorePosts} >Load more posts</button>
+
+        <Button
+          text="Carregue mais posts"
+          onClick={this.loadMorePosts} />
 
       </section>
 
