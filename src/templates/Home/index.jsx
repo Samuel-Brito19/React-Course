@@ -1,8 +1,10 @@
 import './style.css';
 import { Component } from 'react';
-import { PostCard } from '../../components/postCard';
+//import { PostCard } from '../../components/postCard';
 import { loadPosts } from '../../components/postCard/utils/load-posts'
 import { Button } from '../../components/Button';
+import { Posts } from '../../components/Posts';
+import { TextInput } from '../../components/TextInput';
 
 
 export class Home extends Component {
@@ -12,7 +14,8 @@ export class Home extends Component {
     posts: [],
     allPosts: [],
     page: 0,
-    postsPerPage: 99
+    postsPerPage: 2,
+    searchValue: ''
   }
 
   async componentDidMount() {
@@ -40,34 +43,55 @@ export class Home extends Component {
     this.setState({ posts, page: nextPage })
   }
 
+  handleChange = (e) => {
+    const { value } = e.target
+    this.setState({ searchValue: value })
+  }
+
   render() {
 
-    const { posts, page, allPosts, postsPerPage } = this.state
+    const { posts, page, allPosts, postsPerPage, searchValue } = this.state
     const noMorePosts = page + postsPerPage >= allPosts.length
+
+    const filtredPosts = !!searchValue ?
+
+      allPosts.filter(post => {
+        return post.title.toLowerCase().includes(searchValue.toLowerCase())
+
+      }) : posts
     return (
       <section className='container'>
+        <div className='search-container'>
+          {!!searchValue && (
+            <h1>Search Value: {searchValue}</h1>
+          )}
 
-        <div className="posts">
+          <TextInput searchValue={searchValue} handleChange={this.handleChange} />
 
-          {posts.map(post => (
-
-            <PostCard
-              key={post.id}
-              title={post.title}
-              body={post.body}
-              id={post.id}
-              cover={post.cover}
-            />
-          ))}
         </div>
 
-        <div class="button-container">
-          <Button
-            text="Carregue mais posts"
-            onClick={this.loadMorePosts}
-            disable={noMorePosts}
+        <br /><br /><br />
 
-          />
+        {filtredPosts.length > 0 && (
+          <Posts posts={filtredPosts} />
+        )}
+
+        {filtredPosts.length === 0 && (
+          <p>Não existem posts com essa palavra</p>
+        )}
+
+
+
+        <div className="button-container">
+          {!searchValue && (
+            <Button
+              text="Carregue mais posts"
+              onClick={this.loadMorePosts}
+              disable={noMorePosts}
+
+            />
+
+          )}
 
         </div>
 
