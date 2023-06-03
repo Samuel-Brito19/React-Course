@@ -1,5 +1,7 @@
 import './style.css';
 import { Component } from 'react';
+import React from 'react';
+
 //import { PostCard } from '../../components/postCard';
 import { loadPosts } from '../../components/postCard/utils/load-posts'
 import { Button } from '../../components/Button';
@@ -32,7 +34,7 @@ export const Home = () => {
 
   const noMorePosts = page + postsPerPage >= allPosts.length
 
-  const filtredPosts = !!searchValue ?
+  const filtredPosts = searchValue ?
 
     allPosts.filter(post => {
       return post.title.toLowerCase().includes(searchValue.toLowerCase())
